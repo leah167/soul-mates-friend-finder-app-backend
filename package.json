@@ -1,0 +1,32 @@
+{
+  "name": "soul-mates-friend-finder-app-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:backend": "nodemon index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leah167/soul-mates-friend-finder-app-backend.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/leah167/soul-mates-friend-finder-app-backend/issues"
+  },
+  "homepage": "https://github.com/leah167/soul-mates-friend-finder-app-backend#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^4.11.0",
+    "mongoose": "^6.6.7",
+    "nodemon": "^2.0.20",
+    "react-cookie": "^4.1.1",
+    "uuid": "^9.0.0"
+  }
+}
