@@ -1,5 +1,3 @@
-const PORT = 3010;
-
 const express = require("express");
 const mongoose = require("mongoose");
 const { MongoClient } = require("mongodb");
@@ -8,9 +6,9 @@ const jwt = require("jsonwebtoken");
 const cors = require("cors");
 const bcrypt = require("bcrypt");
 require("dotenv").config();
+const port = process.env.PORT;
 
-const uri =
-  "mongodb+srv://lnsanchez167:CodeImmersives2022@cluster0.bqnohaj.mongodb.net/Cluster0?retryWrites=true&w=majority";
+const uri = process.env.URI;
 
 const app = express();
 app.use(cors());
@@ -22,12 +20,12 @@ mongoose
   .catch(() => console.log("Unable to connect to mongo db"));
 
 // Default
-app.get("/", (req, res) => {
+app.get("/api/", (req, res) => {
   res.json("my app");
 });
 
 // Sign up to the Database
-app.post("/signup", async (req, res) => {
+app.post("/api/signup", async (req, res) => {
   const client = new MongoClient(uri);
   const { email, password } = req.body;
 
@@ -68,7 +66,7 @@ app.post("/signup", async (req, res) => {
 });
 
 // Get individual user
-app.get("/user", async (req, res) => {
+app.get("/api/user", async (req, res) => {
   const client = new MongoClient(uri);
   const userId = req.query.userId;
 
@@ -86,7 +84,7 @@ app.get("/user", async (req, res) => {
 });
 
 // Update User with a friend
-app.put("/addfriend", async (req, res) => {
+app.put("/api/addfriend", async (req, res) => {
   const client = new MongoClient(uri);
   const { userId, friendedUserId } = req.body;
 
@@ -107,7 +105,7 @@ app.put("/addfriend", async (req, res) => {
 });
 
 // Log in to the Database
-app.post("/login", async (req, res) => {
+app.post("/api/login", async (req, res) => {
   const client = new MongoClient(uri);
   const { email, password } = req.body;
 
@@ -128,6 +126,7 @@ app.post("/login", async (req, res) => {
         expiresIn: 60 * 24,
       });
       res.status(201).json({ token, userId: user.user_id });
+      return;
     }
 
     res.status(400).json("Invalid Credentials");
@@ -139,7 +138,7 @@ app.post("/login", async (req, res) => {
 });
 
 // Get all the Gendered Users in the Database
-app.get("/gendered-users", async (req, res) => {
+app.get("/api/gendered-users", async (req, res) => {
   const client = new MongoClient(uri);
   const gender = req.query.gender;
 
@@ -156,7 +155,7 @@ app.get("/gendered-users", async (req, res) => {
 });
 
 // Get all Users by userIds in the Database
-app.get("/users", async (req, res) => {
+app.get("/api/users", async (req, res) => {
   const client = new MongoClient(uri);
   const userIds = JSON.parse(req.query.userIds);
 
@@ -184,7 +183,7 @@ app.get("/users", async (req, res) => {
 });
 
 // Update a User in the Database
-app.put("/user", async (req, res) => {
+app.put("/api/user", async (req, res) => {
   const client = new MongoClient(uri);
   const formData = req.body.formData;
 
@@ -219,7 +218,7 @@ app.put("/user", async (req, res) => {
 });
 
 // Get Messages by from_userId and to_userId
-app.get("/messages", async (req, res) => {
+app.get("/api/messages", async (req, res) => {
   const { userId, correspondingUserId } = req.query;
   const client = new MongoClient(uri);
 
@@ -240,7 +239,7 @@ app.get("/messages", async (req, res) => {
 });
 
 // Add a Message to our Database
-app.post("/message", async (req, res) => {
+app.post("/api/message", async (req, res) => {
   const client = new MongoClient(uri);
   const message = req.body.message;
 
@@ -256,4 +255,4 @@ app.post("/message", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => console.log("Server running on PORT " + PORT));
+app.listen(port, () => console.log("Server running on PORT " + port));
